@@ -26,8 +26,8 @@ class AnalystPanelProvider extends PanelProvider
             ->id('analyst')
             ->path('analyst')
             ->colors([
-                'primary' => Color::Indigo,
-                'gray' => Color::Zinc,
+                'primary' => Color::Blue,
+                'gray' => Color::Slate,
             ])
             ->font('Inter')
             ->brandName('SIMPEL Analyst')

@@ -27,8 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->colors([
-                'primary' => \Filament\Support\Colors\Color::Slate,
-                'gray' => \Filament\Support\Colors\Color::Zinc,
+                'primary' => \Filament\Support\Colors\Color::Blue,
+                'gray' => \Filament\Support\Colors\Color::Slate,
             ])
             ->font('Inter')
             ->brandName('SIMPEL Administrator')

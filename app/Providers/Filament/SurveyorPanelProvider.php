@@ -26,8 +26,8 @@ class SurveyorPanelProvider extends PanelProvider
             ->id('surveyor')
             ->path('surveyor')
             ->colors([
-                'primary' => Color::Teal,
-                'gray' => Color::Zinc,
+                'primary' => Color::Blue,
+                'gray' => Color::Slate,
             ])
             ->font('Inter')
             ->brandName('SIMPEL Surveyor')
