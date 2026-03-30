@@ -38,7 +38,14 @@ class AnalystPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             // ->discoverWidgets(in: app_path('Filament/Analyst/Widgets'), for: 'App\\Filament\\Analyst\\Widgets')
-            ->widgets([])
+            ->widgets([
+                \App\Filament\Widgets\QuickAccessWidget::class,
+                \App\Filament\Widgets\PerformanceWidget::class,
+                \App\Filament\Widgets\AnalystStats::class,
+                \App\Filament\Widgets\SurveyorPerformanceChart::class,
+                \App\Filament\Widgets\CensusStatusPieChart::class,
+                \App\Filament\Widgets\LatestSensusWidget::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

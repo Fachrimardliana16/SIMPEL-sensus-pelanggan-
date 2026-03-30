@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -76,5 +77,10 @@ class User extends Authenticatable implements FilamentUser
         }
 
         return false;
+    }
+
+    public function surveyResponses(): HasMany
+    {
+        return $this->hasMany(SurveyResponse::class, 'surveyor_id');
     }
 }

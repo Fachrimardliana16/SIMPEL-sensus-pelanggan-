@@ -213,6 +213,56 @@ class SensusResource extends Resource
         return $sections;
     }
 
+    public static function infolist(\Filament\Infolists\Infolist $infolist): \Filament\Infolists\Infolist
+    {
+        return $infolist
+            ->schema([
+                \Filament\Infolists\Components\Section::make('Identitas Pelanggan')
+                    ->icon('heroicon-o-identification')
+                    ->columns(3)
+                    ->schema([
+                        \Filament\Infolists\Components\TextEntry::make('nolangg')->label('No. Langganan'),
+                        \Filament\Infolists\Components\TextEntry::make('nama')->label('Nama Lengkap'),
+                        \Filament\Infolists\Components\TextEntry::make('telepon')->label('Telepon'),
+                        \Filament\Infolists\Components\TextEntry::make('alamat')->label('Alamat')->columnSpanFull(),
+                    ]),
+                
+                \Filament\Infolists\Components\Section::make('Info Teknis & Meter')
+                    ->icon('heroicon-o-wrench-screwdriver')
+                    ->columns(3)
+                    ->schema([
+                        \Filament\Infolists\Components\TextEntry::make('nometer')->label('No. Meter'),
+                        \Filament\Infolists\Components\TextEntry::make('merk_meter')->label('Merk'),
+                        \Filament\Infolists\Components\TextEntry::make('diameter')->label('Diameter'),
+                        \Filament\Infolists\Components\TextEntry::make('tarif')->label('Tarif'),
+                        \Filament\Infolists\Components\TextEntry::make('pdam_status')
+                            ->label('Status PDAM')
+                            ->badge()
+                            ->color(fn ($state) => $state === 'aktif' ? 'success' : 'danger'),
+                    ]),
+
+                \Filament\Infolists\Components\Section::make('Dokumentasi Foto')
+                    ->icon('heroicon-o-camera')
+                    ->columns(2)
+                    ->schema([
+                        \Filament\Infolists\Components\ImageEntry::make('foto')
+                            ->label('Foto Kunjungan')
+                            ->columnSpanFull(),
+                        \Filament\Infolists\Components\ImageEntry::make('photo_home')
+                            ->label('Foto Rumah'),
+                        \Filament\Infolists\Components\ImageEntry::make('photo_meter')
+                            ->label('Foto Meteran'),
+                    ]),
+
+                \Filament\Infolists\Components\Section::make('Data Kuesioner')
+                    ->icon('heroicon-o-document-text')
+                    ->schema([
+                        \Filament\Infolists\Components\KeyValueEntry::make('answers')
+                            ->label('Jawaban Survey'),
+                    ]),
+            ]);
+    }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -250,6 +300,27 @@ class SensusResource extends Resource
                 ]),
             ])
             ->recordUrl(fn (SurveyResponse $record): string => Pages\ViewSensus::getUrl(['record' => $record]))
+            ->headerActions([
+                Tables\Actions\Action::make('export_pdf')
+                    ->label('Cetak PDF (Filtered)')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('danger')
+                    ->form([
+                        Forms\Components\DatePicker::make('start_date')
+                            ->label('Tanggal Mulai')
+                            ->default(now()->startOfMonth()),
+                        Forms\Components\DatePicker::make('end_date')
+                            ->label('Tanggal Selesai')
+                            ->default(now()),
+                    ])
+                    ->action(function (array $data) {
+                        return redirect()->route('export.sensus.pdf', [
+                            'start_date' => $data['start_date'],
+                            'end_date' => $data['end_date'],
+                            'surveyor_id' => auth()->id(), // For surveyor panel, only self
+                        ]);
+                    })
+            ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);

@@ -14,16 +14,17 @@ class SurveyorStats extends BaseWidget
         
         return [
             Stat::make('Total Sensus Anda', $query->count())
-                ->description('Jumlah kiriman yang telah Anda buat')
-                ->descriptionIcon('heroicon-m-clipboard-document-list')
+                ->description('Jumlah kiriman')
+                ->descriptionIcon('heroicon-m-user')
                 ->color('info'),
-            Stat::make('Sensus Valid (Approved)', (clone $query)->where('census_status', 'valid')->count())
-                ->description('Sensus sudah disetujui Analyst')
-                ->descriptionIcon('heroicon-m-check-badge')
+            Stat::make('⏳ Menunggu', (clone $query)->where('census_status', 'pending')->count())
+                ->description('Sedang di-review')
+                ->color('warning'),
+            Stat::make('✅ Disetujui', (clone $query)->where('census_status', 'valid')->count())
+                ->description('Sudah valid')
                 ->color('success'),
-            Stat::make('Perlu Revisi / Ditolak', (clone $query)->where('census_status', 'revisi')->count())
-                ->description('Harap periksa kembali kiriman Anda')
-                ->descriptionIcon('heroicon-m-exclamation-triangle')
+            Stat::make('❌ Revisi', (clone $query)->where('census_status', 'revisi')->count())
+                ->description('Butuh perbaikan')
                 ->color('danger'),
         ];
     }

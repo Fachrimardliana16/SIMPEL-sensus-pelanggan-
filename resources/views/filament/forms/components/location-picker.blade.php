@@ -33,12 +33,16 @@
                 let pos = e.target.getLatLng();
                 this.lat = pos.lat.toFixed(7);
                 this.lng = pos.lng.toFixed(7);
+                $wire.set('data.lati', this.lat);
+                $wire.set('data.longi', this.lng);
             });
 
             this.map.on('click', (e) => {
                 this.marker.setLatLng(e.latlng);
                 this.lat = e.latlng.lat.toFixed(7);
                 this.lng = e.latlng.lng.toFixed(7);
+                $wire.set('data.lati', this.lat);
+                $wire.set('data.longi', this.lng);
             });
 
             $watch('lat', value => {
@@ -73,9 +77,15 @@
         navigator.geolocation.getCurrentPosition((position) => {
             this.lat = position.coords.latitude.toFixed(7);
             this.lng = position.coords.longitude.toFixed(7);
+            let alti = position.coords.altitude ? position.coords.altitude.toFixed(1) : 0;
             
             this.map.setView([this.lat, this.lng], 18);
             this.marker.setLatLng([this.lat, this.lng]);
+            
+            // Explicitly update Filament form state
+            $wire.set('data.lati', this.lat);
+            $wire.set('data.longi', this.lng);
+            $wire.set('data.alti', alti);
         }, (error) => {
             alert('Gagal mengambil lokasi: ' + error.message);
         }, { enableHighAccuracy: true });

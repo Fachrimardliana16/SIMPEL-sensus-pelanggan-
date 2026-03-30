@@ -31,78 +31,141 @@ class SurveyResponseResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make('Census Review')
-                    ->tabs([
-                        Forms\Components\Tabs\Tab::make('Identitas Pelanggan')
-                            ->icon('heroicon-o-identification')
-                            ->schema([
-                                Forms\Components\Grid::make(3)
-                                    ->schema([
-                                        Forms\Components\TextInput::make('nolangg')->label('No. Langganan')->disabled(),
-                                        Forms\Components\TextInput::make('nama')->label('Nama Lengkap')->disabled(),
-                                        Forms\Components\TextInput::make('telepon')->label('Telepon')->disabled(),
-                                    ]),
-                                Forms\Components\Textarea::make('alamat')->label('Alamat Lengkap')->disabled()->columnSpanFull(),
-                                Forms\Components\Grid::make(3)
-                                    ->schema([
-                                        Forms\Components\TextInput::make('telepon')->label('Telepon')->disabled(),
-                                        Forms\Components\TextInput::make('KEL')->label('Kelurahan')->disabled(),
-                                        Forms\Components\TextInput::make('kode_unit')->label('Kode Unit')->disabled(),
-                                    ]),
-                            ]),
+                Forms\Components\Section::make('Identitas Pelanggan')
+                    ->icon('heroicon-o-identification')
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('nolangg')->label('No. Langganan')->disabled(),
+                        Forms\Components\TextInput::make('nama')->label('Nama Lengkap')->disabled(),
+                        Forms\Components\TextInput::make('telepon')->label('Telepon')->disabled(),
+                        Forms\Components\Textarea::make('alamat')->label('Alamat Lengkap')->disabled()->columnSpanFull(),
+                        Forms\Components\TextInput::make('KEL')->label('Kelurahan')->disabled(),
+                        Forms\Components\TextInput::make('kode_unit')->label('Kode Unit')->disabled(),
+                    ]),
 
-                        Forms\Components\Tabs\Tab::make('Info Teknis')
-                            ->icon('heroicon-o-wrench-screwdriver')
-                            ->schema([
-                                Forms\Components\Grid::make(3)
-                                    ->schema([
-                                        Forms\Components\TextInput::make('nometer')->label('No. Meter')->disabled(),
-                                        Forms\Components\TextInput::make('merk_meter')->label('Merk Meter')->disabled(),
-                                        Forms\Components\TextInput::make('tarif')->label('Tarif')->disabled(),
-                                    ]),
-                            ]),
+                Forms\Components\Section::make('Info Teknis')
+                    ->icon('heroicon-o-wrench-screwdriver')
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\TextInput::make('nometer')->label('No. Meter')->disabled(),
+                        Forms\Components\TextInput::make('merk_meter')->label('Merk Meter')->disabled(),
+                        Forms\Components\TextInput::make('tarif')->label('Tarif')->disabled(),
+                        Forms\Components\TextInput::make('diameter')->label('Diameter')->disabled(),
+                        Forms\Components\TextInput::make('jenis_pelayanan')->label('Jenis Pelayanan')->disabled(),
+                    ]),
 
-                        Forms\Components\Tabs\Tab::make('Media')
-                            ->icon('heroicon-o-camera')
-                            ->schema([
-                                Forms\Components\Grid::make(2)
-                                    ->schema([
-                                        Forms\Components\FileUpload::make('photo_home')
-                                            ->label('Foto Rumah')
-                                            ->disabled()
-                                            ->image(),
-                                        Forms\Components\FileUpload::make('photo_meter')
-                                            ->label('Foto Meteran')
-                                            ->disabled()
-                                            ->image(),
-                                    ]),
-                            ]),
+                Forms\Components\Section::make('Media & Dokumentasi')
+                    ->icon('heroicon-o-camera')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\FileUpload::make('foto')
+                            ->label('Foto Kunjungan')
+                            ->disabled()
+                            ->image()
+                            ->columnSpanFull(),
+                        Forms\Components\FileUpload::make('photo_home')
+                            ->label('Foto Rumah')
+                            ->disabled()
+                            ->image(),
+                        Forms\Components\FileUpload::make('photo_meter')
+                            ->label('Foto Meteran')
+                            ->disabled()
+                            ->image(),
+                    ]),
 
-                        Forms\Components\Tabs\Tab::make('Jawaban Kuesioner')
-                            ->icon('heroicon-o-document-text')
-                            ->schema([
-                                Forms\Components\KeyValue::make('answers')
-                                    ->label('Jawaban')
-                                    ->disabled()
-                                    ->columnSpanFull(),
-                            ]),
+                Forms\Components\Section::make('Jawaban Kuesioner')
+                    ->icon('heroicon-o-document-text')
+                    ->schema([
+                        Forms\Components\KeyValue::make('answers')
+                            ->label('Jawaban')
+                            ->disabled()
+                            ->columnSpanFull(),
+                    ]),
 
-                        Forms\Components\Tabs\Tab::make('Validasi Analyst')
-                            ->icon('heroicon-o-check-badge')
-                            ->schema([
-                                Forms\Components\Select::make('census_status')
-                                    ->label('Status Validasi')
-                                    ->options([
-                                        'pending' => '⏳ Pending',
-                                        'valid' => '✅ Valid / Memadai',
-                                        'revisi' => '❌ Perlu Revisi',
-                                    ])
-                                    ->required(),
-                                Forms\Components\Textarea::make('census_notes')
-                                    ->label('Catatan Reviewer')
-                                    ->columnSpanFull(),
-                            ]),
-                    ])->columnSpanFull()
+                Forms\Components\Section::make('Validasi Analyst')
+                    ->icon('heroicon-o-check-badge')
+                    ->columns(1)
+                    ->schema([
+                        Forms\Components\Select::make('census_status')
+                            ->label('Status Validasi')
+                            ->options([
+                                'pending' => '⏳ Pending',
+                                'valid' => '✅ Valid / Memadai',
+                                'revisi' => '❌ Perlu Revisi',
+                            ])
+                            ->required(),
+                        Forms\Components\Textarea::make('census_notes')
+                            ->label('Catatan Reviewer')
+                            ->placeholder('Berikan alasan jika perlu revisi...')
+                            ->columnSpanFull(),
+                    ]),
+            ]);
+    }
+
+    public static function infolist(\Filament\Infolists\Infolist $infolist): \Filament\Infolists\Infolist
+    {
+        return $infolist
+            ->schema([
+                \Filament\Infolists\Components\Section::make('Identitas Pelanggan')
+                    ->icon('heroicon-o-identification')
+                    ->columns(3)
+                    ->schema([
+                        \Filament\Infolists\Components\TextEntry::make('nolangg')->label('No. Langganan'),
+                        \Filament\Infolists\Components\TextEntry::make('nama')->label('Nama Lengkap'),
+                        \Filament\Infolists\Components\TextEntry::make('telepon')->label('Telepon'),
+                        \Filament\Infolists\Components\TextEntry::make('alamat')->label('Alamat')->columnSpanFull(),
+                    ]),
+                
+                \Filament\Infolists\Components\Section::make('Info Teknis & Meter')
+                    ->icon('heroicon-o-wrench-screwdriver')
+                    ->columns(3)
+                    ->schema([
+                        \Filament\Infolists\Components\TextEntry::make('nometer')->label('No. Meter'),
+                        \Filament\Infolists\Components\TextEntry::make('merk_meter')->label('Merk Meter'),
+                        \Filament\Infolists\Components\TextEntry::make('diameter')->label('Diameter'),
+                        \Filament\Infolists\Components\TextEntry::make('tarif')->label('Tarif'),
+                        \Filament\Infolists\Components\TextEntry::make('pdam_status')
+                            ->label('Status PDAM')
+                            ->badge()
+                            ->color(fn ($state) => $state === 'aktif' ? 'success' : 'danger'),
+                    ]),
+
+                \Filament\Infolists\Components\Section::make('Dokumentasi Foto')
+                    ->icon('heroicon-o-camera')
+                    ->columns(2)
+                    ->schema([
+                        \Filament\Infolists\Components\ImageEntry::make('foto')
+                            ->label('Foto Kunjungan')
+                            ->columnSpanFull(),
+                        \Filament\Infolists\Components\ImageEntry::make('photo_home')
+                            ->label('Foto Rumah'),
+                        \Filament\Infolists\Components\ImageEntry::make('photo_meter')
+                            ->label('Foto Meteran'),
+                    ]),
+
+                \Filament\Infolists\Components\Section::make('Analisis & Jawaban')
+                    ->icon('heroicon-o-document-text')
+                    ->columns(2)
+                    ->schema([
+                        \Filament\Infolists\Components\TextEntry::make('total_points')
+                            ->label('Skor Otomatis')
+                            ->badge()
+                            ->color('info'),
+                        \Filament\Infolists\Components\TextEntry::make('census_status')
+                            ->label('Status Validasi')
+                            ->badge()
+                            ->color(fn (string $state): string => match ($state) {
+                                'valid' => 'success',
+                                'revisi' => 'danger',
+                                default => 'warning',
+                            }),
+                        \Filament\Infolists\Components\KeyValueEntry::make('answers')
+                            ->label('Jawaban Detail')
+                            ->columnSpanFull(),
+                        \Filament\Infolists\Components\TextEntry::make('census_notes')
+                            ->label('Catatan Review')
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -169,6 +232,32 @@ class SurveyResponseResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('export_pdf')
+                    ->label('Cetak PDF Laporan')
+                    ->icon('heroicon-o-printer')
+                    ->color('info')
+                    ->form([
+                        Forms\Components\DatePicker::make('start_date')
+                            ->label('Tanggal Mulai')
+                            ->default(now()->startOfMonth()),
+                        Forms\Components\DatePicker::make('end_date')
+                            ->label('Tanggal Selesai')
+                            ->default(now()),
+                        Forms\Components\Select::make('surveyor_id')
+                            ->label('Filter Surveyor')
+                            ->options(\App\Models\User::role('Surveyor')->pluck('name', 'id'))
+                            ->searchable()
+                            ->placeholder('Semua Surveyor'),
+                    ])
+                    ->action(function (array $data) {
+                        return redirect()->route('export.sensus.pdf', [
+                            'start_date' => $data['start_date'],
+                            'end_date' => $data['end_date'],
+                            'surveyor_id' => $data['surveyor_id'],
+                        ]);
+                    })
             ])
             ->recordUrl(fn (SurveyResponse $record): string => Pages\ViewSurveyResponse::getUrl(['record' => $record]))
             ->bulkActions([]);

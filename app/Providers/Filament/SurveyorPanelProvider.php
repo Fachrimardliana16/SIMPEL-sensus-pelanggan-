@@ -38,7 +38,12 @@ class SurveyorPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             // ->discoverWidgets(in: app_path('Filament/Surveyor/Widgets'), for: 'App\\Filament\\Surveyor\\Widgets')
-            ->widgets([])
+            ->widgets([
+                \App\Filament\Widgets\QuickAccessWidget::class,
+                \App\Filament\Widgets\PerformanceWidget::class,
+                \App\Filament\Widgets\SurveyorStats::class,
+                \App\Filament\Widgets\MySubmissionTrendChart::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
