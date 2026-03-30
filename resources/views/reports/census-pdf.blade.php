@@ -27,7 +27,7 @@
 <body>
     <div class="header">
         <h1>📊 Laporan Sensus Pelanggan PDAM</h1>
-        <p>SurveiPro — Sistem Sensus Digital</p>
+        <p>SIMPEL — Sensus Informasi & Manajemen Pelanggan</p>
         <p>{{ $title ?? 'Laporan Sensus' }}</p>
     </div>
 
@@ -71,7 +71,7 @@
     </table>
 
     <div class="footer">
-        SurveiPro &copy; {{ date('Y') }} — Dicetak secara otomatis oleh sistem
+        SIMPEL &copy; {{ date('Y') }} — Dicetak secara otomatis oleh sistem
     </div>
 </body>
 </html>
