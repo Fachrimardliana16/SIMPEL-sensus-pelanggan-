@@ -15,7 +15,7 @@
 
 ---
 
-## 📋 Daftar Isi
+## Daftar Isi
 
 - [Deskripsi](#-deskripsi)
 - [Arsitektur Aplikasi](#-arsitektur-aplikasi)
@@ -29,7 +29,7 @@
 
 ---
 
-## 📖 Deskripsi
+## Deskripsi
 
 **SIMPEL** adalah aplikasi enterprise-grade untuk mengelola sensus pelanggan. Dirancang untuk wilayah **Purbalingga, Jawa Tengah**, aplikasi ini mencakup seluruh siklus kerja sensus: dari pendataan lapangan oleh surveyor, validasi data oleh analyst, hingga monitoring real-time oleh administrator.
 
@@ -37,7 +37,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-## 🏗 Arsitektur Aplikasi
+## Arsitektur Aplikasi
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -66,9 +66,9 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-## ✨ Fitur Lengkap
+## Fitur Lengkap
 
-### 🌐 Halaman Publik (Monitoring Real-time)
+### Halaman Publik (Monitoring Real-time)
 | Fitur | Deskripsi |
 |-------|-----------|
 | **Live Clock** | Jam real-time format Indonesia (hari, tanggal, WIB) |
@@ -82,7 +82,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-### 👑 Panel Administrator (`/admin`)
+### Panel Administrator (`/admin`)
 | Fitur | Deskripsi |
 |-------|-----------|
 | **Dashboard** | Statistik akumulasi, tren input 7 hari, verifikasi analyst, progres doughnut chart, log aktivitas, input terbaru |
@@ -104,7 +104,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-### 🔍 Panel Analyst (`/analyst`)
+### Panel Analyst (`/analyst`)
 | Fitur | Deskripsi |
 |-------|-----------|
 | **Dashboard** | Statistik overview, distribusi status sensus (pie chart), input terbaru, kinerja karyawan, peta persebaran |
@@ -126,7 +126,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-### 📝 Panel Surveyor (`/surveyor`)
+### Panel Surveyor (`/surveyor`)
 | Fitur | Deskripsi |
 |-------|-----------|
 | **Dashboard** | Statistik personal, tren kiriman (line chart), sensus terbaru, peta kiriman |
@@ -151,7 +151,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-### 🔐 Keamanan & Audit
+### Keamanan & Audit
 | Fitur | Deskripsi |
 |-------|-----------|
 | **RBAC** | Role-Based Access Control via Spatie Laravel Permission (Super Admin, Admin, Analyst, Surveyor) |
@@ -163,7 +163,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-### 📄 Export & Reporting
+### Export & Reporting
 | Fitur | Deskripsi |
 |-------|-----------|
 | **Laporan Sensus (Batch)** | PDF landscape A4 — filter berdasarkan tanggal dan surveyor |
@@ -173,7 +173,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Layer | Teknologi | Versi |
 |-------|-----------|-------|
@@ -193,7 +193,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 
 ---
 
-## 🚀 Instalasi
+##  Instalasi
 
 ### Prasyarat
 - PHP 8.2+
@@ -230,7 +230,7 @@ Aplikasi akan berjalan di `http://127.0.0.1:8000`
 
 ---
 
-## 👤 Akun Default (Seeder)
+## Akun Default (Seeder)
 
 | Role | Email | Password |
 |------|-------|----------|
@@ -242,7 +242,7 @@ Aplikasi akan berjalan di `http://127.0.0.1:8000`
 
 ---
 
-## 🗄 Struktur Database
+## Struktur Database
 
 ### Model Utama
 
@@ -269,7 +269,7 @@ Aplikasi akan berjalan di `http://127.0.0.1:8000`
 
 ---
 
-## 🌐 API Endpoints
+## API Endpoints
 
 | Method | URI | Deskripsi |
 |--------|-----|-----------|
@@ -320,7 +320,7 @@ resources/views/
 
 ---
 
-## 📜 Changelog
+## Changelog
 
 ### v1.0.2-Stable (31 Maret 2026)
 - ✅ Peta geospasial interaktif (Leaflet.js) di dashboard Analyst & Surveyor
@@ -334,11 +334,11 @@ resources/views/
 - ✅ Tab filter dengan badge count dinamis
 
 ### v1.0.0 (30 Maret 2026)
-- 🎉 Rilis awal — multi-panel RBAC, input sensus, review & validasi, audit trail
+- Rilis awal — multi-panel RBAC, input sensus, review & validasi, audit trail
 
 ---
 
-## 📄 Lisensi
+## Lisensi
 
 Proyek ini dikembangkan untuk **Sensus Pelanggan**.
 
