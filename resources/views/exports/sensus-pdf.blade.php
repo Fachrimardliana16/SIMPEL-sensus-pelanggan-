@@ -21,7 +21,7 @@
 <body>
     <div class="header">
         <h1>Laporan Sensus Pelanggan</h1>
-        <p>PDAM Tirta Perwira Purbalingga - Sistem SIMPEL</p>
+        <p>Instansi / Perusahaan - Sistem SIMPEL</p>
     </div>
 
     <div class="meta">

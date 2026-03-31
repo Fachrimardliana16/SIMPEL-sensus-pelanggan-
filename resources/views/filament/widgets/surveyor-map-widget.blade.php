@@ -6,7 +6,7 @@
                     🗺️ Peta Kiriman Sensus Saya
                 </h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Menampilkan <strong>{{ count($locations) }}</strong> titik sensus Anda di wilayah Purbalingga.
+                    Menampilkan <strong>{{ count($locations) }}</strong> titik sensus Anda di area cakupan survei.
                 </p>
             </div>
 

@@ -34,7 +34,7 @@ class ViewSurveyResponse extends ViewRecord
                         Forms\Components\TextInput::make('KEL')->label('Kelurahan'),
                         Forms\Components\TextInput::make('kode_unit')->label('Kode Unit'),
                         Forms\Components\Select::make('pdam_status')
-                            ->label('Status PDAM')
+                            ->label('Status Pelayanan')
                             ->options(['aktif' => 'Aktif', 'tutup' => 'Tutup', 'bongkar' => 'Bongkar'])
                             ->required(),
                         Forms\Components\TextInput::make('nometer')->label('No. Meter'),

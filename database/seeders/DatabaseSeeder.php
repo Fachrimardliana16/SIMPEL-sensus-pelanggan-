@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
 
         // 3. Seed Questions into questions table
         $questions = [
-            ['tema' => 'Kualitas Air', 'pertanyaan' => 'Bagaimana kepuasan Anda terhadap kualitas air PDAM?', 'tipe' => 'rating', 'poin' => 10, 'wajib' => true, 'urutan' => 1],
+            ['tema' => 'Kualitas Air', 'pertanyaan' => 'Bagaimana kepuasan Anda terhadap kualitas air/layanan?', 'tipe' => 'rating', 'poin' => 10, 'wajib' => true, 'urutan' => 1],
             ['tema' => 'Tekanan & Aliran', 'pertanyaan' => 'Apakah air mengalir 24 jam?', 'tipe' => 'single_choice', 'poin' => 10, 'wajib' => true, 'urutan' => 2, 'opsi' => [
                 ['label' => 'Ya, lancar 24 jam', 'value' => 'lancar'],
                 ['label' => 'Sering mati', 'value' => 'sering_mati'],
@@ -89,15 +89,15 @@ class DatabaseSeeder extends Seeder
             ['tema' => 'Tagihan & Pembayaran', 'pertanyaan' => 'Metode pembayaran yang digunakan?', 'tipe' => 'multiple_choice', 'poin' => 5, 'wajib' => false, 'urutan' => 7, 'opsi' => [
                 ['label' => 'M-Banking / Transfer', 'value' => 'bank'],
                 ['label' => 'PPOB / Minimarket', 'value' => 'ppob'],
-                ['label' => 'Kantor PDAM', 'value' => 'kantor'],
+                ['label' => 'Kantor Pusat/Cabang', 'value' => 'kantor'],
             ]],
-            ['tema' => 'Umum', 'pertanyaan' => 'Apakah menggunakan sumber air lain selain PDAM?', 'tipe' => 'single_choice', 'poin' => 5, 'wajib' => false, 'urutan' => 8, 'opsi' => [
-                ['label' => 'Hanya PDAM', 'value' => 'hanya_pdam'],
+            ['tema' => 'Umum', 'pertanyaan' => 'Apakah menggunakan sumber alternatif lain selain dari Instansi/Perusahaan?', 'tipe' => 'single_choice', 'poin' => 5, 'wajib' => false, 'urutan' => 8, 'opsi' => [
+                ['label' => 'Hanya dari Instansi', 'value' => 'hanya_instansi'],
                 ['label' => 'Sumur / Air tanah', 'value' => 'sumur'],
                 ['label' => 'Air isi ulang', 'value' => 'isi_ulang'],
             ]],
             ['tema' => 'Umum', 'pertanyaan' => 'Apa perbaikan paling mendesak yang Anda harapkan?', 'tipe' => 'text', 'poin' => 0, 'wajib' => false, 'urutan' => 9],
-            ['tema' => 'Pelayanan', 'pertanyaan' => 'Bagaimana kesan Anda terhadap pelayanan petugas PDAM?', 'tipe' => 'rating', 'poin' => 10, 'wajib' => true, 'urutan' => 10],
+            ['tema' => 'Pelayanan', 'pertanyaan' => 'Bagaimana kesan Anda terhadap pelayanan petugas lapangan?', 'tipe' => 'rating', 'poin' => 10, 'wajib' => true, 'urutan' => 10],
         ];
 
         foreach ($questions as $q) {

@@ -243,7 +243,7 @@ class SensusResource extends Resource
                         \Filament\Infolists\Components\TextEntry::make('diameter')->label('Diameter'),
                         \Filament\Infolists\Components\TextEntry::make('tarif')->label('Tarif'),
                         \Filament\Infolists\Components\TextEntry::make('pdam_status')
-                            ->label('Status PDAM')
+                            ->label('Status Pelayanan')
                             ->badge()
                             ->color(fn ($state) => $state === 'aktif' ? 'success' : 'danger'),
                     ]),

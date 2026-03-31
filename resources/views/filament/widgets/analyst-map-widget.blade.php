@@ -6,7 +6,7 @@
                     🗺️ Peta Persebaran Sensus Valid
                 </h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Menampilkan <strong>{{ count($locations) }}</strong> titik sensus valid di wilayah Purbalingga.
+                    Menampilkan <strong>{{ count($locations) }}</strong> titik sensus valid di area cakupan survei.
                 </p>
             </div>
         </div>

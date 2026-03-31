@@ -118,7 +118,7 @@ class SurveyResponseResource extends Resource
                                         \Filament\Infolists\Components\TextEntry::make('nama')->label('Nama Lengkap')->weight('bold'),
                                         \Filament\Infolists\Components\TextEntry::make('telepon')->label('Telepon')->icon('heroicon-o-phone'),
                                         \Filament\Infolists\Components\TextEntry::make('pdam_status')
-                                            ->label('Status PDAM')
+                                            ->label('Status Pelayanan')
                                             ->badge()
                                             ->color(fn ($state) => $state === 'aktif' ? 'success' : 'danger'),
                                     ]),
@@ -259,7 +259,7 @@ class SurveyResponseResource extends Resource
                             Forms\Components\TextInput::make('KEL')->label('Kelurahan'),
                             Forms\Components\TextInput::make('kode_unit')->label('Kode Unit'),
                             Forms\Components\Select::make('pdam_status')
-                                ->label('Status PDAM')
+                                ->label('Status Pelayanan')
                                 ->options(['aktif' => 'Aktif', 'tutup' => 'Tutup', 'bongkar' => 'Bongkar'])
                                 ->required(),
                             Forms\Components\TextInput::make('nometer')->label('No. Meter'),

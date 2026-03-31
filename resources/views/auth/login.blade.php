@@ -107,7 +107,7 @@
             </div>
 
             <p class="mt-10 text-center text-sm text-slate-400">
-                &copy; {{ date('Y') }} PDAM Tirta Perwira. All rights reserved.
+                &copy; {{ date('Y') }} Perusahaan. All rights reserved.
             </p>
         </div>
     </div>

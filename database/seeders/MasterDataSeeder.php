@@ -32,7 +32,7 @@ class MasterDataSeeder extends Seeder
             ['kode' => '09', 'namaunit' => 'Unit Rembang', 'alamat' => 'Kec. Rembang', 'ka_unit' => 'Margono', 'pref' => 'RMB'],
             ['kode' => '12', 'namaunit' => 'Cabang Jend. Soedirman', 'alamat' => 'Kec. Padamara', 'ka_unit' => 'Sutarman A.Md', 'pref' => 'PDR'],
             ['kode' => '13', 'namaunit' => 'Cabang Jend. Soedirman', 'alamat' => 'Kec. Kalimanah', 'ka_unit' => 'Sutarman A.Md', 'pref' => 'KLM'],
-            ['kode' => '01', 'namaunit' => 'Cabang Purbalingga', 'alamat' => 'JL JL S PARMAN', 'ka_unit' => 'Tur Tjahjoto, S.St', 'pref' => 'PAM'],
+            ['kode' => '01', 'namaunit' => 'Cabang Pusat', 'alamat' => 'JL JL S PARMAN', 'ka_unit' => 'Tur Tjahjoto, S.St', 'pref' => 'PAM'],
             ['kode' => '02', 'namaunit' => 'Unit Bukateja', 'alamat' => 'Kecamatan Bukateja', 'ka_unit' => 'Suyitno', 'pref' => 'BKT'],
             ['kode' => '14', 'namaunit' => 'Unit Karangreja', 'alamat' => 'Kec. Karang Reja', 'ka_unit' => 'Riyadi', 'pref' => 'KRJ'],
             ['kode' => '15', 'namaunit' => 'Cabang Goentoer Darjono', 'alamat' => 'Ds.Kaligondang', 'ka_unit' => 'Sugeng, A.Md', 'pref' => 'KLG'],

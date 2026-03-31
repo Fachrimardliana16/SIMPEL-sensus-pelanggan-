@@ -43,7 +43,7 @@ class ViewSensus extends ViewRecord
                                         Components\TextEntry::make('nama')->label('Nama Lengkap')->weight('bold'),
                                         Components\TextEntry::make('telepon')->label('Telepon')->icon('heroicon-o-phone'),
                                         Components\TextEntry::make('pdam_status')
-                                            ->label('Status PDAM')
+                                            ->label('Status Pelayanan')
                                             ->badge()
                                             ->color(fn ($state) => $state === 'aktif' ? 'success' : 'danger'),
                                     ]),

@@ -113,7 +113,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 | **View Detail** | Layout split kiri-kanan: identitas pelanggan, meter & tarif, lokasi sensus (embed Google Maps), validasi, kuesioner Q&A (kiri) + dokumentasi foto (kanan) |
 | **Approve / Reject** | Tombol "Approve" dan "Ulang" dengan form catatan reviewer |
 | **Cetak PDF** | Print single-record sensus ke PDF (portrait, A4) |
-| **Peta Geospasial** | Leaflet.js — persebaran data sensus valid, centered di Purbalingga |
+| **Peta Geospasial** | Leaflet.js — persebaran data sensus valid |
 
 **Widget Dashboard Analyst:**
 - `AnalystStats` — Total sensus, pending, valid, revisi
@@ -325,7 +325,7 @@ resources/views/
 ### v1.0.2-Stable (31 Maret 2026)
 - ✅ Peta geospasial interaktif (Leaflet.js) di dashboard Analyst & Surveyor
 - ✅ Filter marker peta berdasarkan status (Valid/Pending/Revisi) di panel Surveyor
-- ✅ Peta centered di wilayah **Purbalingga, Jawa Tengah**
+- ✅ Peta centered dapat disesuaikan dengan wilayah kerja masing-masing
 - ✅ Tombol cetak PDF di halaman view sensus (Analyst & Surveyor)
 - ✅ Layout view sensus Split (detail kiri, foto kanan) — konsisten antar panel
 - ✅ Quick Access buttons sejajar horizontal

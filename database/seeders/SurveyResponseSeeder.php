@@ -17,7 +17,7 @@ class SurveyResponseSeeder extends Seeder
         $survey = Survey::firstOrCreate(
             ['slug' => 'sensus-2026'],
             [
-                'title' => 'Sensus Pelanggan PDAM 2026',
+                'title' => 'Sensus Pelanggan 2026',
                 'description' => 'Survei teknis dan profil pelanggan tahap 1.',
                 'status' => 'published',
             ]

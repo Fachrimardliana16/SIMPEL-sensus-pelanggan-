@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Laporan Sensus PDAM</title>
+    <title>Laporan Sensus Pelanggan</title>
     <style>
         body { font-family: 'DejaVu Sans', sans-serif; font-size: 11px; color: #333; }
         .header { text-align: center; margin-bottom: 20px; border-bottom: 3px solid #0d9488; padding-bottom: 10px; }
@@ -26,7 +26,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>📊 Laporan Sensus Pelanggan PDAM</h1>
+        <h1>📊 Laporan Sensus Pelanggan</h1>
         <p>SIMPEL — Sensus Informasi & Manajemen Pelanggan</p>
         <p>{{ $title ?? 'Laporan Sensus' }}</p>
     </div>
@@ -45,7 +45,7 @@
                 <th>Nama</th>
                 <th>Kelurahan</th>
                 <th>No. Meter</th>
-                <th>Status PDAM</th>
+                <th>Status Pelayanan</th>
                 <th>Validasi</th>
                 <th>Tgl Input</th>
             </tr>

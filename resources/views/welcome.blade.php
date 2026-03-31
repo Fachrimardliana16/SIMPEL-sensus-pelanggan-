@@ -165,7 +165,7 @@
     </main>
 
     <footer class="text-center pb-20 text-slate-400 font-bold text-[9px] tracking-[0.3em] uppercase">
-        &copy; {{ date('Y') }} SIMPEL MONITORING | PDAM TIRTA PERWIRA | V1.0.2
+        &copy; {{ date('Y') }} SIMPEL MONITORING | INSTANSI / PERUSAHAAN | V1.0.2
     </footer>
 
     <script>

@@ -120,7 +120,7 @@
     <div class="header">
         <div class="header-left">
             <h1>📋 Laporan Data Sensus Pelanggan</h1>
-            <p>SIMPEL — Sensus Informasi & Manajemen Pelanggan PDAM</p>
+            <p>SIMPEL — Sensus Informasi & Manajemen Pelanggan</p>
         </div>
         <div class="header-right">
             <span class="badge badge-{{ $record->census_status ?? 'pending' }}">
@@ -158,7 +158,7 @@
             <div class="field"><label>Tarif/Golongan</label><span>{{ $record->tarif ?? '-' }}</span></div>
             <div class="field"><label>Jenis Pelayanan</label><span>{{ $record->jenis_pelayanan ?? '-' }}</span></div>
             <div class="field">
-                <label>Status PDAM</label>
+                <label>Status Pelayanan</label>
                 <span>
                     <span class="badge badge-{{ $record->pdam_status === 'aktif' ? 'valid' : 'revisi' }}">
                         {{ strtoupper($record->pdam_status ?? 'N/A') }}
@@ -244,7 +244,7 @@
     <div class="footer">
         <div>
             <p style="margin:0;">SIMPEL &copy; {{ date('Y') }} — Dokumen ini digenerate secara otomatis oleh sistem.</p>
-            <p style="margin:0;">Halaman ini bersifat resmi dan merupakan bagian dari arsip digital PDAM.</p>
+            <p style="margin:0;">Halaman ini bersifat resmi dan merupakan bagian dari arsip digital Instansi/Perusahaan.</p>
         </div>
         <div class="signature-box">
             <div class="sig-line"></div>
