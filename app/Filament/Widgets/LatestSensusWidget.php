@@ -9,9 +9,9 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestSensusWidget extends BaseWidget
 {
-    protected static ?int $sort = 2;
-    protected int | string | array $columnSpan = 'full';
-    protected static ?string $heading = '📥 Input Sensus Terbaru';
+    protected static ?int $sort = 10;
+    protected int | string | array $columnSpan = 1;
+    protected static ?string $heading = 'Input Sensus Terbaru';
 
     public function table(Table $table): Table
     {

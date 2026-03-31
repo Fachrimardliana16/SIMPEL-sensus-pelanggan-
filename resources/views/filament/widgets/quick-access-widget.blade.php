@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
             @foreach($actions as $action)
                 <a href="{{ $action['url'] }}" 
                    class="flex flex-col items-center justify-center p-4 rounded-xl border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">

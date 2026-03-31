@@ -48,11 +48,11 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->pages([
-                Pages\Dashboard::class,
-            ])
             ->widgets([
                 \App\Filament\Widgets\AnalystStats::class,
+                \App\Filament\Widgets\SurveyProgressDoughnut::class,
+                \App\Filament\Widgets\AdminInputTrendChart::class,
+                \App\Filament\Widgets\AdminVerificationChart::class,
                 \App\Filament\Widgets\LatestSensusWidget::class,
                 \App\Filament\Widgets\ActivityLogWidget::class,
             ])

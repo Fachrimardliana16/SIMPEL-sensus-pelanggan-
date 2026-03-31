@@ -9,6 +9,8 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Models\SurveyResponse;
+
 class ListSurveyResponses extends ListRecords
 {
     protected static string $resource = SurveyResponseResource::class;
@@ -34,12 +36,15 @@ class ListSurveyResponses extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('SemuaData'),
-            'pending' => Tab::make('⏳ Pending')
+            'all' => Tab::make('Semua Data')->badge(SurveyResponse::count()),
+            'pending' => Tab::make('Pending')
+                ->badge(SurveyResponse::where('census_status', 'pending')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('census_status', 'pending')),
-            'valid' => Tab::make('✅ Valid')
+            'valid' => Tab::make('Valid')
+                ->badge(SurveyResponse::where('census_status', 'valid')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('census_status', 'valid')),
-            'revisi' => Tab::make('❌ Revisi')
+            'revisi' => Tab::make('Revisi')
+                ->badge(SurveyResponse::where('census_status', 'revisi')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('census_status', 'revisi')),
         ];
     }

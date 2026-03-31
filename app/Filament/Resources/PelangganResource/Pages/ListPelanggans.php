@@ -54,4 +54,28 @@ class ListPelanggans extends ListRecords
                 }),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\PelangganResource\Widgets\PelangganStatsWidget::class,
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'all' => \Filament\Resources\Components\Tab::make('Semua Pelanggan')->badge(\App\Models\Customer::count()),
+            'surveyed' => \Filament\Resources\Components\Tab::make('Sensus Valid')
+                ->badge(\App\Models\Customer::whereHas('surveyResponses', fn ($q) => $q->where('census_status', 'valid'))->count())
+                ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => 
+                    $query->whereHas('surveyResponses', fn ($q) => $q->where('census_status', 'valid'))
+                ),
+            'not_surveyed' => \Filament\Resources\Components\Tab::make('Belum Sensus/Valid')
+                ->badge(\App\Models\Customer::whereDoesntHave('surveyResponses', fn ($q) => $q->where('census_status', 'valid'))->count())
+                ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => 
+                    $query->whereDoesntHave('surveyResponses', fn ($q) => $q->where('census_status', 'valid'))
+                ),
+        ];
+    }
 }

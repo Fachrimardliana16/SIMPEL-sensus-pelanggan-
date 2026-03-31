@@ -12,10 +12,10 @@ class QuickAccessWidget extends Widget
 
     protected function getViewData(): array
     {
-        $user = auth()->user();
+        $panelId = filament()->getCurrentPanel()->getId();
         $actions = [];
 
-        if ($user->hasRole('Surveyor')) {
+        if ($panelId === 'surveyor') {
             $actions[] = [
                 'label' => 'Input Sensus Baru',
                 'url' => '/surveyor/sensus/create',
@@ -24,14 +24,21 @@ class QuickAccessWidget extends Widget
             ];
         }
 
-        if ($user->hasRole('Analyst')) {
+        if ($panelId === 'analyst') {
             $actions[] = [
                 'label' => 'Review Sensus Pending',
-                'url' => '/analyst/review-sensus?tableFilters[census_status][value]=pending',
+                'url' => '/analyst/survey-responses?tableFilters[census_status][value]=pending',
                 'icon' => 'heroicon-o-magnifying-glass-circle',
                 'color' => 'warning',
             ];
         }
+
+        $actions[] = [
+            'label' => 'Profil Saya',
+            'url' => '/' . $panelId . '/profile',
+            'icon' => 'heroicon-o-user-circle',
+            'color' => 'primary',
+        ];
 
         return [
             'actions' => $actions,

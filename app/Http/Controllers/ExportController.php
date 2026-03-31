@@ -46,4 +46,24 @@ class ExportController extends Controller
         
         return $pdf->download($filename);
     }
+    public function printSingleSensus(Request $request, string $id)
+    {
+        $record = SurveyResponse::with(['surveyor'])->findOrFail($id);
+
+        // Gate: Analyst can print any, Surveyor only their own
+        if (
+            ! auth()->user()->hasRole(['Admin', 'Super Admin', 'Analyst']) &&
+            $record->surveyor_id !== auth()->id()
+        ) {
+            abort(403, 'Unauthorized');
+        }
+
+        $pdf = Pdf::loadView('reports.census-single-pdf', [
+            'record' => $record,
+        ])->setPaper('a4', 'portrait');
+
+        $filename = 'Sensus_' . ($record->nolangg ?? $id) . '_' . now()->format('Ymd') . '.pdf';
+
+        return $pdf->download($filename);
+    }
 }

@@ -104,7 +104,7 @@
     <!-- Simple Green GPS Button below Map -->
     <button type="button"
             @click="getCurrentLocation()"
-            class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition shadow-sm">
+            class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition shadow-sm">
         <x-heroicon-s-map-pin class="w-5 h-5" />
         Ambil Lokasi Saat Ini (GPS)
     </button>

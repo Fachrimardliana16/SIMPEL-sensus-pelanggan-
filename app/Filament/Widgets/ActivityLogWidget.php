@@ -10,8 +10,8 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class ActivityLogWidget extends BaseWidget
 {
     protected static ?int $sort = 3;
-    protected int | string | array $columnSpan = 'full';
-    protected static ?string $heading = '📜 Log Aktivitas Sistem';
+    protected int | string | array $columnSpan = 1;
+    protected static ?string $heading = 'Log Aktivitas Sistem';
 
     public function table(Table $table): Table
     {

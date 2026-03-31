@@ -9,6 +9,8 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Components\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Models\SurveyResponse;
+
 class ListSensus extends ListRecords
 {
     protected static string $resource = SensusResource::class;
@@ -34,13 +36,17 @@ class ListSensus extends ListRecords
 
     public function getTabs(): array
     {
+        $userId = auth()->id();
         return [
-            'all' => Tab::make('Semua Sensus'),
-            'pending' => Tab::make('⏳ Menunggu')
+            'all' => Tab::make('Semua Sensus')->badge(SurveyResponse::where('surveyor_id', $userId)->count()),
+            'pending' => Tab::make('Menunggu')
+                ->badge(SurveyResponse::where('surveyor_id', $userId)->where('census_status', 'pending')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('census_status', 'pending')),
-            'valid' => Tab::make('✅ Disetujui')
+            'valid' => Tab::make('Disetujui')
+                ->badge(SurveyResponse::where('surveyor_id', $userId)->where('census_status', 'valid')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('census_status', 'valid')),
-            'revisi' => Tab::make('❌ Perlu Revisi')
+            'revisi' => Tab::make('Perlu Revisi')
+                ->badge(SurveyResponse::where('surveyor_id', $userId)->where('census_status', 'revisi')->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('census_status', 'revisi')),
         ];
     }

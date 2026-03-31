@@ -8,7 +8,8 @@ use Filament\Widgets\ChartWidget;
 class CensusStatusPieChart extends ChartWidget
 {
     protected static ?string $heading = 'Distribusi Status Sensus';
-    protected static ?int $sort = 4;
+    protected static ?int $sort = 10;
+    protected int | string | array $columnSpan = 1;
 
     protected function getData(): array
     {

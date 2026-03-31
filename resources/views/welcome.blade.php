@@ -42,6 +42,7 @@
     <main class="max-w-7xl mx-auto px-6 py-10">
         <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
+                <div id="live-clock" class="text-[10px] font-bold text-blue-600 uppercase tracking-[0.2em] mb-2 drop-shadow-sm">Memuat waktu...</div>
                 <h2 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight">Monitoring Sensus <span class="gradient-text">Pelanggan</span></h2>
                 <p class="text-sm text-slate-500 font-medium mt-1">Analisis capaian and performa pendataan lapangan real-time.</p>
             </div>
@@ -147,17 +148,17 @@
                 <div id="map"></div>
             </div>
 
-            <div class="bg-slate-900 p-10 rounded-[3rem] shadow-2xl text-white flex flex-col justify-between">
+            <div class="bg-white p-10 rounded-[3rem] border border-slate-200 shadow-sm flex flex-col justify-between">
                 <div>
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-white/40 mb-2">Statistik Akumulasi</h3>
-                    <p class="text-2xl font-black mb-10 leading-tight">Tren Input <span class="text-blue-400" id="filter-label">{{ strtoupper($currentFilter) }}</span></p>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">Statistik Akumulasi</h3>
+                    <p class="text-2xl font-black text-slate-900 mb-10 leading-tight">Tren Input <span class="text-blue-600" id="filter-label">{{ strtoupper($currentFilter) }}</span></p>
                     <div class="h-[250px]">
                         <canvas id="trendChart"></canvas>
                     </div>
                 </div>
-                <div class="mt-8 pt-8 border-t border-white/10 grid grid-cols-2 gap-6">
-                    <div><span class="block text-[8px] font-black text-white/30 uppercase mb-1">Protection</span><span class="text-xs font-bold text-blue-400">PDI Protected</span></div>
-                    <div><span class="block text-[8px] font-black text-white/30 uppercase mb-1">Version</span><span class="text-xs font-bold">1.0.2-Stable</span></div>
+                <div class="mt-8 pt-8 border-t border-slate-200 grid grid-cols-2 gap-6">
+                    <div><span class="block text-[8px] font-black text-slate-400 uppercase mb-1">Protection</span><span class="text-xs font-bold text-blue-600">PDI Protected</span></div>
+                    <div><span class="block text-[8px] font-black text-slate-400 uppercase mb-1">Version</span><span class="text-xs font-bold text-slate-900">1.0.2-Stable</span></div>
                 </div>
             </div>
         </div>
@@ -194,8 +195,8 @@
                 data: { labels: labels, datasets: [{ label: 'Input', data: values, backgroundColor: '#3b82f6', borderRadius: 10 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: 'rgba(255, 255, 255, 0.3)', font: { size: 9 } } },
-                        x: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.3)', font: { size: 9 } } }
+                        y: { grid: { color: 'rgba(0, 0, 0, 0.06)' }, ticks: { color: 'rgba(0, 0, 0, 0.4)', font: { size: 9 } } },
+                        x: { grid: { display: false }, ticks: { color: 'rgba(0, 0, 0, 0.4)', font: { size: 9 } } }
                     }
                 }
             });
@@ -235,9 +236,25 @@
             } catch (err) { console.error(err); } finally { document.getElementById('loading').style.display = 'none'; }
         }
 
+        function updateClock() {
+            const now = new Date();
+            const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+            const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+            const day = days[now.getDay()];
+            const dd = now.getDate();
+            const mm = months[now.getMonth()];
+            const yyyy = now.getFullYear();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const mi = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('live-clock').textContent = day + ', ' + dd + ' ' + mm + ' ' + yyyy + ' — ' + hh + ':' + mi + ':' + ss + ' WIB';
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             initChart(@json($chartLabels), @json($chartValues));
             initMap(@json($mapData));
+            updateClock();
+            setInterval(updateClock, 1000);
         });
     </script>
 </body>

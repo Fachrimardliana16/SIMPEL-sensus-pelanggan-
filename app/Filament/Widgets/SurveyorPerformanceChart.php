@@ -8,12 +8,13 @@ use Filament\Widgets\ChartWidget;
 
 class SurveyorPerformanceChart extends ChartWidget
 {
-    protected static ?string $heading = 'Performa Surveyor (Top 10)';
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 11;
+    protected int | string | array $columnSpan = 'full';
+    protected static ?string $heading = '📊 Kinerja Karyawan';
 
     protected function getData(): array
     {
-        $data = User::role('Surveyor')
+        $data = User::has('surveyResponses')
             ->withCount('surveyResponses')
             ->orderByDesc('survey_responses_count')
             ->limit(10)

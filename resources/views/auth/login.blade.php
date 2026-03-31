@@ -10,26 +10,27 @@
 </head>
 <body class="h-full flex bg-white text-slate-900">
 
-    <!-- Left Side: Premium Graphic Background (Now on Left) -->
-    <div class="hidden lg:block relative w-0 flex-1 bg-blue-900 overflow-hidden">
-        <div class="absolute inset-0 bg-cover bg-center brightness-50" style="background-image: url('/images/simpel_bg.png');"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-950/80 to-black/90"></div>
-        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    <!-- Left Side: Premium Minimalist Graphic Background -->
+    <div class="hidden lg:block relative w-0 flex-1 bg-gradient-to-tr from-blue-900 via-blue-600 to-white overflow-hidden">
         
-        <div class="flex items-center justify-center h-full relative z-10 px-12">
-            <div class="text-center">
-                <h1 class="text-6xl lg:text-8xl font-extrabold text-white tracking-tighter mb-8 drop-shadow-2xl">
-                    SIMPEL
+        <div class="flex items-end justify-start h-full relative z-10 pb-24 px-12 xl:px-20">
+            <div class="text-left w-full">
+                <div class="mb-8 w-16 h-1 bg-white rounded-full opacity-80"></div>
+                <h1 class="text-5xl lg:text-7xl font-light text-white tracking-tight mb-4 drop-shadow-md">
+                    <span class="font-extrabold">SIMPEL</span>
                 </h1>
-                <p class="mt-4 text-xl text-blue-100 font-medium max-w-lg mx-auto leading-relaxed">
+                <p class="text-xl lg:text-2xl text-blue-50 font-medium max-w-lg leading-relaxed drop-shadow-sm">
                     Sensus Informasi & Manajemen PELanggan
                 </p>
-                <div class="mt-16 inline-flex items-center px-6 py-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white font-semibold">
-                    <span class="flex h-3 w-3 mr-3">
-                        <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-blue-400 opacity-75"></span>
+                
+                <div class="mt-16 flex items-center space-x-4 border-t border-white/20 pt-8 w-full max-w-sm">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
                     </span>
-                    Monitoring Sistem Real-time
+                    <span class="text-sm font-medium tracking-wider text-blue-200 uppercase">
+                        Monitoring Terintegrasi
+                    </span>
                 </div>
             </div>
         </div>

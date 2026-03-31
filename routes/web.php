@@ -18,3 +18,8 @@ Route::get('/s/{slug}', \App\Livewire\TakeSurvey::class)->name('survey.show');
 Route::get('/export/sensus-pdf', [ExportController::class, 'downloadSensusPdf'])
     ->name('export.sensus.pdf')
     ->middleware(['auth']);
+
+Route::get('/export/sensus-print/{id}', [ExportController::class, 'printSingleSensus'])
+    ->name('export.sensus.print')
+    ->middleware(['auth']);
+

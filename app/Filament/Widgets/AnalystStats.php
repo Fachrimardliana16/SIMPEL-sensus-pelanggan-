@@ -13,17 +13,20 @@ class AnalystStats extends BaseWidget
         return [
             Stat::make('Total Sensus', SurveyResponse::count())
                 ->description('Total masuk ke sistem')
-                ->descriptionIcon('heroicon-m-clipboard-document-list')
-                ->color('info'),
-            Stat::make('⏳ Pending', SurveyResponse::where('census_status', 'pending')->count())
+                ->descriptionIcon('heroicon-m-document-duplicate')
+                ->color('primary'),
+            Stat::make('Pending', SurveyResponse::where('census_status', 'pending')->count())
                 ->description('Belum divalidasi')
-                ->color('warning'),
-            Stat::make('✅ Valid', SurveyResponse::where('census_status', 'valid')->count())
+                ->descriptionIcon('heroicon-m-clock')
+                ->color('primary'),
+            Stat::make('Valid', SurveyResponse::where('census_status', 'valid')->count())
                 ->description('Telah disetujui')
-                ->color('success'),
-            Stat::make('❌ Revisi', SurveyResponse::where('census_status', 'revisi')->count())
+                ->descriptionIcon('heroicon-m-check-circle')
+                ->color('primary'),
+            Stat::make('Revisi', SurveyResponse::where('census_status', 'revisi')->count())
                 ->description('Perlu perbaikan')
-                ->color('danger'),
+                ->descriptionIcon('heroicon-m-exclamation-triangle')
+                ->color('primary'),
         ];
     }
 }

@@ -31,6 +31,7 @@ class SensusResource extends Resource
                 // ===== SECTION 1: DATA PELANGGAN =====
                 [
                     Forms\Components\Section::make('Data Pelanggan')
+                        ->collapsible()
                         ->icon('heroicon-o-identification')
                         ->columns(3)
                         ->schema([
@@ -74,6 +75,7 @@ class SensusResource extends Resource
 
                     // ===== SECTION 2: TEKNIS & METER =====
                     Forms\Components\Section::make('Teknis & Meter')
+                        ->collapsible()
                         ->icon('heroicon-o-wrench-screwdriver')
                         ->columns(3)
                         ->schema([
@@ -95,6 +97,7 @@ class SensusResource extends Resource
                 // ===== SECTION 4: LOKASI & MAP =====
                 [
                     Forms\Components\Section::make('Koordinat Lokasi')
+                        ->collapsible()
                         ->icon('heroicon-o-map-pin')
                         ->schema([
                             Forms\Components\Grid::make(3)->schema([
@@ -122,6 +125,7 @@ class SensusResource extends Resource
 
                     // ===== SECTION 5: DOKUMENTASI FOTO =====
                     Forms\Components\Section::make('Dokumentasi Foto')
+                        ->collapsible()
                         ->description('Ambil foto setelah pembersihan/wawancara selesai.')
                         ->icon('heroicon-o-camera')
                         ->columns(2)
@@ -199,6 +203,7 @@ class SensusResource extends Resource
 
             $totalPoin = $temaQuestions->sum('poin');
             $sections[] = Forms\Components\Section::make("📋 {$tema}")
+                ->collapsible()
                 ->description("Total poin tersedia: {$totalPoin}")
                 ->icon('heroicon-o-document-text')
                 ->schema($fields);
@@ -218,6 +223,7 @@ class SensusResource extends Resource
         return $infolist
             ->schema([
                 \Filament\Infolists\Components\Section::make('Identitas Pelanggan')
+                    ->collapsible()
                     ->icon('heroicon-o-identification')
                     ->columns(3)
                     ->schema([
@@ -228,6 +234,7 @@ class SensusResource extends Resource
                     ]),
                 
                 \Filament\Infolists\Components\Section::make('Info Teknis & Meter')
+                    ->collapsible()
                     ->icon('heroicon-o-wrench-screwdriver')
                     ->columns(3)
                     ->schema([
@@ -242,6 +249,7 @@ class SensusResource extends Resource
                     ]),
 
                 \Filament\Infolists\Components\Section::make('Dokumentasi Foto')
+                    ->collapsible()
                     ->icon('heroicon-o-camera')
                     ->columns(2)
                     ->schema([
@@ -254,11 +262,57 @@ class SensusResource extends Resource
                             ->label('Foto Meteran'),
                     ]),
 
-                \Filament\Infolists\Components\Section::make('Data Kuesioner')
+                \Filament\Infolists\Components\Section::make('Koordinat Lokasi')
+                    ->collapsible()
+                    ->icon('heroicon-o-map')
+                    ->schema([
+                        \Filament\Infolists\Components\TextEntry::make('location_map')
+                            ->label('Peta Lokasi Sensus')
+                            ->html()
+                            ->state(fn ($record) => $record->lati && $record->longi ? sprintf(
+                                '<iframe src="https://maps.google.com/maps?q=%s,%s&hl=id&z=15&output=embed" width="100%%" height="300" frameborder="0" style="border:0; border-radius: 8px;" allowfullscreen></iframe>',
+                                $record->lati,
+                                $record->longi
+                            ) : '<span class="text-gray-500 italic">Koordinat tidak tersedia</span>')
+                            ->columnSpanFull(),
+                    ]),
+
+                \Filament\Infolists\Components\Section::make('Hasil Kuesioner Sensus')
+                    ->collapsible()
                     ->icon('heroicon-o-document-text')
                     ->schema([
-                        \Filament\Infolists\Components\KeyValueEntry::make('answers')
-                            ->label('Jawaban Survey'),
+                        \Filament\Infolists\Components\Grid::make(1)
+                            ->schema(fn ($record) => 
+                                collect($record->answers ?? [])
+                                    ->map(function ($value, $key) {
+                                        if (!str_starts_with($key, 'q_')) return null;
+                                        $id = str_replace('q_', '', $key);
+                                        $question = \App\Models\Question::find($id);
+                                        return [
+                                            'question' => $question?->pertanyaan ?? "Pertanyaan #{$id}",
+                                            'answer' => is_array($value) ? implode(', ', $value) : $value,
+                                            'urutan' => $question?->urutan ?? 99,
+                                        ];
+                                    })
+                                    ->filter()
+                                    ->sortBy('urutan')
+                                    ->values()
+                                    ->map(fn ($item, $index) => 
+                                        \Filament\Infolists\Components\TextEntry::make("answer_q_{$index}")
+                                            ->label(($index + 1) . '. ' . $item['question'])
+                                            ->state($item['answer'])
+                                            ->prose()
+                                    )
+                                    ->toArray()
+                            ),
+                    ]),
+
+                \Filament\Infolists\Components\Section::make('Catatan & Hasil')
+                    ->collapsible()
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->schema([
+                        \Filament\Infolists\Components\TextEntry::make('census_notes')->label('Catatan Surveyor')->placeholder('Tidak ada catatan'),
+                        \Filament\Infolists\Components\TextEntry::make('total_points')->label('Total Skor Keaktifan')->badge()->color('info'),
                     ]),
             ]);
     }
@@ -293,33 +347,9 @@ class SensusResource extends Resource
                     ->dateTime()
                     ->sortable(),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                ]),
-            ])
             ->recordUrl(fn (SurveyResponse $record): string => Pages\ViewSensus::getUrl(['record' => $record]))
             ->headerActions([
-                Tables\Actions\Action::make('export_pdf')
-                    ->label('Cetak PDF (Filtered)')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->color('danger')
-                    ->form([
-                        Forms\Components\DatePicker::make('start_date')
-                            ->label('Tanggal Mulai')
-                            ->default(now()->startOfMonth()),
-                        Forms\Components\DatePicker::make('end_date')
-                            ->label('Tanggal Selesai')
-                            ->default(now()),
-                    ])
-                    ->action(function (array $data) {
-                        return redirect()->route('export.sensus.pdf', [
-                            'start_date' => $data['start_date'],
-                            'end_date' => $data['end_date'],
-                            'surveyor_id' => auth()->id(), // For surveyor panel, only self
-                        ]);
-                    })
+                // Removed redundant header export button
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

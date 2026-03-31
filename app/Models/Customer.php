@@ -6,11 +6,22 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
+
 class Customer extends Model
 {
-    use HasUuids, SoftDeletes;
+    use HasUuids, SoftDeletes, LogsActivity;
 
     protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
     protected $casts = [
         'tglPasang' => 'date',
@@ -32,5 +43,10 @@ class Customer extends Model
     public function tarifRel()
     {
         return $this->belongsTo(Tarif::class, 'tarif', 'id_tarif');
+    }
+
+    public function surveyResponses()
+    {
+        return $this->hasMany(SurveyResponse::class, 'customer_id');
     }
 }

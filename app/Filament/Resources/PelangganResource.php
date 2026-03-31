@@ -40,7 +40,11 @@ class PelangganResource extends Resource
                         Forms\Components\Textarea::make('alamat')->label('Alamat')->columnSpanFull()->rows(2),
                         Forms\Components\TextInput::make('telepon')->label('Telepon')->tel(),
                         Forms\Components\TextInput::make('KEL')->label('Kelurahan'),
-                        Forms\Components\TextInput::make('kode_unit')->label('Kode Unit'),
+                        Forms\Components\Select::make('kode_unit')
+                            ->label('Unit Pelayanan')
+                            ->options(fn () => \App\Models\Unit::pluck('namaunit', 'kode'))
+                            ->searchable()
+                            ->required(),
                     ]),
 
                 Forms\Components\Section::make('Info Teknis')
@@ -50,13 +54,17 @@ class PelangganResource extends Resource
                         Forms\Components\TextInput::make('nometer')->label('No. Meter'),
                         Forms\Components\TextInput::make('merk_meter')->label('Merk Meter'),
                         Forms\Components\TextInput::make('diameter')->label('Diameter'),
-                        Forms\Components\TextInput::make('tarif')->label('Tarif / Golongan'),
+                        Forms\Components\Select::make('tarif')
+                            ->label('Tarif / Golongan')
+                            ->options(fn () => \App\Models\Tarif::pluck('golongan', 'id_tarif'))
+                            ->searchable(),
                         Forms\Components\TextInput::make('jenis_pelayanan')->label('Jenis Pelayanan'),
                         Forms\Components\TextInput::make('kode_alamat')->label('Kode Alamat'),
                         Forms\Components\TextInput::make('kas')->label('Kas'),
                         Forms\Components\Select::make('status')->label('Status')
-                            ->options(['aktif' => 'Aktif', 'tutup' => 'Tutup', 'bongkar' => 'Bongkar'])
-                            ->default('aktif'),
+                            ->options(fn () => \App\Models\Status::pluck('nama', 'kode'))
+                            ->required(),
+                        Forms\Components\TextInput::make('kecamatan')->label('Kecamatan'),
                     ]),
 
                 Forms\Components\Section::make('BA & Tanggal')
@@ -80,8 +88,8 @@ class PelangganResource extends Resource
                             ->view('filament.forms.components.location-picker')
                             ->columnSpanFull(),
                         Forms\Components\Grid::make(3)->schema([
-                            Forms\Components\Hidden::make('lati'),
-                            Forms\Components\Hidden::make('longi'),
+                            Forms\Components\TextInput::make('lati')->label('Latitude')->readonly(),
+                            Forms\Components\TextInput::make('longi')->label('Longitude')->readonly(),
                             Forms\Components\TextInput::make('alti')->label('Altitude')->placeholder('Opsional'),
                         ]),
                     ]),
@@ -95,13 +103,15 @@ class PelangganResource extends Resource
                 Tables\Columns\TextColumn::make('id_pelanggan')->label('ID Pel')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('nolangg')->label('No. Langganan')->searchable(),
                 Tables\Columns\TextColumn::make('nama')->label('Nama')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('kecamatan')->label('Kecamatan')->searchable()->toggleable(),
                 Tables\Columns\TextColumn::make('KEL')->label('Kelurahan')->searchable(),
                 Tables\Columns\TextColumn::make('tarifRel.golongan')->label('Tarif')->sortable(),
                 Tables\Columns\TextColumn::make('unit')
                     ->label('Unit')
                     ->state(fn ($record) => ($record->kode_unit ?? '-') . ' - ' . ($record->unitRel?->namaunit ?? '-'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('nometer')->label('No. Meter')->searchable(),
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('nometer')->label('No. Meter')->searchable()->toggleable(),
                 Tables\Columns\TextColumn::make('statusRel.nama')->label('Status')
                     ->badge()
                     ->color(fn (string $state, $record): string => match ($record->statusRel?->nama) {
