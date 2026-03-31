@@ -1,7 +1,7 @@
 # SIMPEL — Sensus Informasi & Manajemen Pelanggan
 
 <p align="center">
-  <strong>Aplikasi manajemen sensus pelanggan PDAM modern — pengumpulan data lapangan, validasi teknis, dan pemetaan geospasial dalam satu platform terpadu.</strong>
+  <strong>Aplikasi manajemen sensus pelanggan modern — pengumpulan data lapangan, validasi teknis, dan pemetaan geospasial dalam satu platform terpadu.</strong>
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@
 
 ## 📖 Deskripsi
 
-**SIMPEL** adalah aplikasi enterprise-grade untuk mengelola sensus pelanggan PDAM Tirta Perwira. Dirancang untuk wilayah **Purbalingga, Jawa Tengah**, aplikasi ini mencakup seluruh siklus kerja sensus: dari pendataan lapangan oleh surveyor, validasi data oleh analyst, hingga monitoring real-time oleh administrator.
+**SIMPEL** adalah aplikasi enterprise-grade untuk mengelola sensus pelanggan. Dirancang untuk wilayah **Purbalingga, Jawa Tengah**, aplikasi ini mencakup seluruh siklus kerja sensus: dari pendataan lapangan oleh surveyor, validasi data oleh analyst, hingga monitoring real-time oleh administrator.
 
 Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasis peran (RBAC) yang ketat, audit trail lengkap, dan visualisasi data geospasial interaktif.
 
@@ -86,10 +86,10 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 | Fitur | Deskripsi |
 |-------|-----------|
 | **Dashboard** | Statistik akumulasi, tren input 7 hari, verifikasi analyst, progres doughnut chart, log aktivitas, input terbaru |
-| **Kelola Pelanggan** | CRUD data pelanggan PDAM — filter tab dengan badge count, widget statistik (total, valid, pending, cancel) |
+| **Kelola Pelanggan** | CRUD data pelanggan — filter tab dengan badge count, widget statistik (total, valid, pending, cancel) |
 | **Kelola Users** | Manajemen pengguna dengan assignment role (Admin, Analyst, Surveyor) |
 | **Kelola Pertanyaan** | Builder kuesioner sensus — tipe: text, radio, checkbox, select, textarea |
-| **Kelola Tarif** | Master data tarif pelanggan PDAM |
+| **Kelola Tarif** | Master data tarif pelanggan |
 | **Kelola Unit** | Master data unit/wilayah kerja |
 | **Kelola Status** | Master data status pelanggan |
 | **Role & Permission** | Manajemen RBAC via Spatie Laravel Permission |
@@ -131,7 +131,7 @@ Sistem ini menggunakan arsitektur **multi-panel** dengan pemisahan akses berbasi
 |-------|-----------|
 | **Dashboard** | Statistik personal, tren kiriman (line chart), sensus terbaru, peta kiriman |
 | **Quick Access** | Tombol cepat: Input Sensus Baru, Profil Saya — sejajar horizontal |
-| **Input Sensus** | Form multi-step: cari pelanggan → auto-fill data PDAM → GPS koordinat → foto → kuesioner → submit |
+| **Input Sensus** | Form multi-step: cari pelanggan → auto-fill data → GPS koordinat → foto → kuesioner → submit |
 | **Map Picker** | Peta Leaflet dengan tombol GPS presisi (lat, long, alt) |
 | **Dokumentasi Foto** | Upload foto rumah dan foto meteran sebagai bukti kunjungan |
 | **Kuesioner Dinamis** | Pertanyaan diambil dari database, mendukung: text, radio, checkbox, select, textarea |
@@ -249,11 +249,11 @@ Aplikasi akan berjalan di `http://127.0.0.1:8000`
 | Model | Tabel | Deskripsi |
 |-------|-------|-----------|
 | `User` | `users` | Pengguna sistem (UUID, soft deletes) |
-| `Customer` | `customers` | Data pelanggan PDAM (nolangg, nama, alamat, tarif, status, dll.) |
+| `Customer` | `customers` | Data pelanggan (nolangg, nama, alamat, tarif, status, dll.) |
 | `SurveyResponse` | `survey_responses` | Data sensus: koordinat GPS, foto, jawaban kuesioner, skor, status validasi |
 | `Question` | `questions` | Master pertanyaan kuesioner (tipe, opsi, urutan, bobot poin) |
 | `Survey` | `surveys` | Definisi survey/kuesioner |
-| `Tarif` | `tarifs` | Master data tarif PDAM |
+| `Tarif` | `tarifs` | Master data tarif |
 | `Unit` | `units` | Master data unit kerja |
 | `Status` | `statuses` | Master data status pelanggan |
 | `Activity` | `activity_log` | Log audit (Spatie) |
@@ -340,7 +340,7 @@ resources/views/
 
 ## 📄 Lisensi
 
-Proyek ini dikembangkan untuk **PDAM Tirta Perwira Purbalingga**.
+Proyek ini dikembangkan untuk **Sensus Pelanggan**.
 
 ---
 
