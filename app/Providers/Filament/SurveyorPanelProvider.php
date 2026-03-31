@@ -135,6 +135,7 @@ class SurveyorPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+            ->databaseNotifications()
             ->profile()
             // ->discoverWidgets(in: app_path('Filament/Surveyor/Widgets'), for: 'App\\Filament\\Surveyor\\Widgets')
             ->widgets([

@@ -13,7 +13,14 @@ class Customer extends Model
 {
     use HasUuids, SoftDeletes, LogsActivity;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'id_pelanggan', 'nolangg', 'tahun', 'nama', 'alamat', 'telepon',
+        'KEL', 'kecamatan', 'kode_unit', 'nometer', 'merk_meter', 'diameter',
+        'tarif', 'jenis_pelayanan', 'kode_alamat', 'kas', 'status',
+        'BApasang', 'BAtutup', 'BAbuka',
+        'tglPasang', 'tglTutup', 'tglBuka', 'tglBongkar',
+        'lati', 'longi', 'alti',
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {

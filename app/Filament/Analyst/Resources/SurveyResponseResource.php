@@ -4,6 +4,7 @@ namespace App\Filament\Analyst\Resources;
 
 use App\Filament\Analyst\Resources\SurveyResponseResource\Pages;
 use App\Models\SurveyResponse;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SurveyResponseResource extends Resource
 {
+    use \App\Filament\Concerns\HasSensusInfolist;
+
     protected static ?string $model = SurveyResponse::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
@@ -20,6 +23,16 @@ class SurveyResponseResource extends Resource
     protected static ?string $modelLabel = 'Data Sensus';
     protected static ?string $pluralModelLabel = 'Review Sensus';
     protected static ?string $breadcrumb = 'Review';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('census_status', 'pending')->count() ?: null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::where('census_status', 'pending')->count() > 10 ? 'danger' : 'warning';
+    }
 
     // Analyst cannot create new census entries
     public static function canCreate(): bool
@@ -301,6 +314,14 @@ class SurveyResponseResource extends Resource
                             'census_status' => 'valid',
                         ]);
                         \Filament\Notifications\Notification::make()->title('Sensus berhasil divalidasi')->success()->send();
+                        
+                        if ($record->surveyor_id) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('Sensus Disetujui')
+                                ->body("Sensus untuk {$record->nama} telah dinyatakan valid.")
+                                ->success()
+                                ->sendToDatabase(User::find($record->surveyor_id));
+                        }
                     })
                     ->visible(fn (SurveyResponse $record) => $record->census_status !== 'valid'),
                 
@@ -323,6 +344,14 @@ class SurveyResponseResource extends Resource
                             'census_status' => 'revisi',
                         ]);
                         \Filament\Notifications\Notification::make()->title('Permintaan revisi dikirim')->danger()->send();
+
+                        if ($record->surveyor_id) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('Sensus Perlu Revisi')
+                                ->body("Sensus untuk {$record->nama} dikembalikan. Alasan: {$data['census_notes']}")
+                                ->danger()
+                                ->sendToDatabase(User::find($record->surveyor_id));
+                        }
                     })
                     ->visible(fn (SurveyResponse $record) => $record->census_status !== 'revisi'),
 
@@ -334,7 +363,31 @@ class SurveyResponseResource extends Resource
                 // Removed redundant header export button
             ])
             ->recordUrl(fn (SurveyResponse $record): string => Pages\ViewSurveyResponse::getUrl(['record' => $record]))
-            ->bulkActions([]);
+            ->bulkActions([
+                Tables\Actions\BulkAction::make('bulk_approve')
+                    ->label('Approve Terpilih')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Approve Banyak Sensus')
+                    ->modalDescription('Apakah Anda yakin ingin memvalidasi semua sensus yang dipilih? Data yang sudah divalidasi tidak bisa dikembalikan ke pending.')
+                    ->action(function (\Illuminate\Database\Eloquent\Collection $records): void {
+                        $records->each(function ($record) {
+                            if ($record->census_status !== 'valid') {
+                                $record->update(['census_status' => 'valid']);
+                                if ($record->surveyor_id) {
+                                    \Filament\Notifications\Notification::make()
+                                        ->title('Sensus Disetujui')
+                                        ->body("Sensus untuk {$record->nama} telah divalidasi masal.")
+                                        ->success()
+                                        ->sendToDatabase(User::find($record->surveyor_id));
+                                }
+                            }
+                        });
+                        \Filament\Notifications\Notification::make()->title('Sensus berhasil divalidasi masal')->success()->send();
+                    })
+                    ->deselectRecordsAfterCompletion(),
+            ]);
     }
 
     // Analyst sees ALL census data (no surveyor scoping)

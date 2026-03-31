@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SensusResource extends Resource
 {
+    use \App\Filament\Concerns\HasSensusInfolist;
+
     protected static ?string $model = SurveyResponse::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
@@ -42,6 +44,10 @@ class SensusResource extends Resource
                                 ->searchable(['nolangg', 'nama'])
                                 ->preload()
                                 ->required()
+                                ->unique(table: 'survey_responses', column: 'customer_id', ignoreRecord: true)
+                                ->validationMessages([
+                                    'unique' => 'Pelanggan ini sudah disensus sebelumnya.',
+                                ])
                                 ->live()
                                 ->afterStateUpdated(function (Set $set, $state) {
                                     $customer = Customer::find($state);
@@ -220,101 +226,7 @@ class SensusResource extends Resource
 
     public static function infolist(\Filament\Infolists\Infolist $infolist): \Filament\Infolists\Infolist
     {
-        return $infolist
-            ->schema([
-                \Filament\Infolists\Components\Section::make('Identitas Pelanggan')
-                    ->collapsible()
-                    ->icon('heroicon-o-identification')
-                    ->columns(3)
-                    ->schema([
-                        \Filament\Infolists\Components\TextEntry::make('nolangg')->label('No. Langganan'),
-                        \Filament\Infolists\Components\TextEntry::make('nama')->label('Nama Lengkap'),
-                        \Filament\Infolists\Components\TextEntry::make('telepon')->label('Telepon'),
-                        \Filament\Infolists\Components\TextEntry::make('alamat')->label('Alamat')->columnSpanFull(),
-                    ]),
-                
-                \Filament\Infolists\Components\Section::make('Info Teknis & Meter')
-                    ->collapsible()
-                    ->icon('heroicon-o-wrench-screwdriver')
-                    ->columns(3)
-                    ->schema([
-                        \Filament\Infolists\Components\TextEntry::make('nometer')->label('No. Meter'),
-                        \Filament\Infolists\Components\TextEntry::make('merk_meter')->label('Merk'),
-                        \Filament\Infolists\Components\TextEntry::make('diameter')->label('Diameter'),
-                        \Filament\Infolists\Components\TextEntry::make('tarif')->label('Tarif'),
-                        \Filament\Infolists\Components\TextEntry::make('pdam_status')
-                            ->label('Status Pelayanan')
-                            ->badge()
-                            ->color(fn ($state) => $state === 'aktif' ? 'success' : 'danger'),
-                    ]),
-
-                \Filament\Infolists\Components\Section::make('Dokumentasi Foto')
-                    ->collapsible()
-                    ->icon('heroicon-o-camera')
-                    ->columns(2)
-                    ->schema([
-                        \Filament\Infolists\Components\ImageEntry::make('foto')
-                            ->label('Foto Kunjungan')
-                            ->columnSpanFull(),
-                        \Filament\Infolists\Components\ImageEntry::make('photo_home')
-                            ->label('Foto Rumah'),
-                        \Filament\Infolists\Components\ImageEntry::make('photo_meter')
-                            ->label('Foto Meteran'),
-                    ]),
-
-                \Filament\Infolists\Components\Section::make('Koordinat Lokasi')
-                    ->collapsible()
-                    ->icon('heroicon-o-map')
-                    ->schema([
-                        \Filament\Infolists\Components\TextEntry::make('location_map')
-                            ->label('Peta Lokasi Sensus')
-                            ->html()
-                            ->state(fn ($record) => $record->lati && $record->longi ? sprintf(
-                                '<iframe src="https://maps.google.com/maps?q=%s,%s&hl=id&z=15&output=embed" width="100%%" height="300" frameborder="0" style="border:0; border-radius: 8px;" allowfullscreen></iframe>',
-                                $record->lati,
-                                $record->longi
-                            ) : '<span class="text-gray-500 italic">Koordinat tidak tersedia</span>')
-                            ->columnSpanFull(),
-                    ]),
-
-                \Filament\Infolists\Components\Section::make('Hasil Kuesioner Sensus')
-                    ->collapsible()
-                    ->icon('heroicon-o-document-text')
-                    ->schema([
-                        \Filament\Infolists\Components\Grid::make(1)
-                            ->schema(fn ($record) => 
-                                collect($record->answers ?? [])
-                                    ->map(function ($value, $key) {
-                                        if (!str_starts_with($key, 'q_')) return null;
-                                        $id = str_replace('q_', '', $key);
-                                        $question = \App\Models\Question::find($id);
-                                        return [
-                                            'question' => $question?->pertanyaan ?? "Pertanyaan #{$id}",
-                                            'answer' => is_array($value) ? implode(', ', $value) : $value,
-                                            'urutan' => $question?->urutan ?? 99,
-                                        ];
-                                    })
-                                    ->filter()
-                                    ->sortBy('urutan')
-                                    ->values()
-                                    ->map(fn ($item, $index) => 
-                                        \Filament\Infolists\Components\TextEntry::make("answer_q_{$index}")
-                                            ->label(($index + 1) . '. ' . $item['question'])
-                                            ->state($item['answer'])
-                                            ->prose()
-                                    )
-                                    ->toArray()
-                            ),
-                    ]),
-
-                \Filament\Infolists\Components\Section::make('Catatan & Hasil')
-                    ->collapsible()
-                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
-                    ->schema([
-                        \Filament\Infolists\Components\TextEntry::make('census_notes')->label('Catatan Surveyor')->placeholder('Tidak ada catatan'),
-                        \Filament\Infolists\Components\TextEntry::make('total_points')->label('Total Skor Keaktifan')->badge()->color('info'),
-                    ]),
-            ]);
+        return $infolist->schema(static::buildSensusInfolistSchema());
     }
 
     public static function table(Table $table): Table

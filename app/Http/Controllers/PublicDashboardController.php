@@ -24,8 +24,9 @@ class PublicDashboardController extends Controller
 
     protected function getDashboardData($filter)
     {
-        $totalTarget = Customer::count();
-        $totalSurveyed = SurveyResponse::count();
+        return \Illuminate\Support\Facades\Cache::remember('dashboard_stats_' . $filter, now()->addMinutes(5), function() use ($filter) {
+            $totalTarget = Customer::count();
+            $totalSurveyed = SurveyResponse::count();
         
         $statValid = SurveyResponse::where('census_status', 'valid')->count();
         $statReview = SurveyResponse::whereIn('census_status', ['pending', 'revisi'])->count();
@@ -55,8 +56,8 @@ class PublicDashboardController extends Controller
         // Average Points
         $avgPoints = round(SurveyResponse::avg('total_points') ?? 0, 1);
 
-        // Map Data (Anonymized & Normalized)
-        $mapData = SurveyResponse::select(['lati', 'longi', 'census_status', 'nama'])
+        // Map Data — anonymized (only coordinates + status, no names)
+        $mapData = SurveyResponse::select(['lati', 'longi', 'census_status'])
             ->whereNotNull('lati')
             ->whereNotNull('longi')
             ->where('lati', '!=', 0)
@@ -70,7 +71,6 @@ class PublicDashboardController extends Controller
                     'lat' => $lat,
                     'lng' => $lng,
                     'status' => $item->census_status,
-                    'label' => substr($item->nama, 0, 3) . '***',
                 ];
             });
 
@@ -116,6 +116,7 @@ class PublicDashboardController extends Controller
             'chartValues' => $trend->pluck('count'),
             'currentFilter' => $filter,
         ];
+        });
     }
 
     protected function calculateTrend($filter)

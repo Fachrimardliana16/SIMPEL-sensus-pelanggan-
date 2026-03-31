@@ -81,6 +81,7 @@ class AnalystPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+            ->databaseNotifications()
             ->profile()
             // ->discoverWidgets(in: app_path('Filament/Analyst/Widgets'), for: 'App\\Filament\\Analyst\\Widgets')
             ->widgets([

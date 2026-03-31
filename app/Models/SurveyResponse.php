@@ -21,7 +21,16 @@ class SurveyResponse extends Model
         });
     }
 
-    protected $guarded = [];
+    protected $fillable = [
+        'survey_id', 'surveyor_id', 'customer_id', 'session_id', 'ip_address', 'user_agent',
+        'geolocation', 'status', 'started_at', 'completed_at', 'consent_given', 'answers',
+        'id_pelanggan', 'tahun', 'nolangg', 'nama', 'alamat', 'telepon',
+        'pdam_status', 'tarif', 'nometer', 'merk_meter', 'diameter',
+        'BApasang', 'BAtutup', 'BAbuka', 'tglPasang', 'tglTutup', 'tglBuka', 'tglBongkar',
+        'kas', 'kode_alamat', 'kode_unit', 'jenis_pelayanan', 'KEL', 'lastEdit', 'editBy',
+        'lati', 'longi', 'alti', 'foto', 'photo_home', 'photo_meter',
+        'census_status', 'census_notes', 'total_points',
+    ];
 
     protected $casts = [
         'geolocation' => 'json',
@@ -55,25 +64,35 @@ class SurveyResponse extends Model
     {
         $total = 0;
         $answers = $this->answers ?? [];
-        
+
+        // Collect all question IDs first
+        $questionIds = collect($answers)->keys()
+            ->filter(fn ($k) => str_starts_with($k, 'q_'))
+            ->map(fn ($k) => str_replace('q_', '', $k))
+            ->values();
+
+        if ($questionIds->isEmpty()) return 0;
+
+        // Batch load all questions in 1 query instead of N queries
+        $questions = \App\Models\Question::whereIn('id', $questionIds)->get()->keyBy('id');
+
         foreach ($answers as $key => $value) {
             if (str_starts_with($key, 'q_')) {
                 $questionId = str_replace('q_', '', $key);
-                $question = \App\Models\Question::find($questionId);
-                
+                $question = $questions->get($questionId);
+
                 if ($question) {
                     if (empty($value)) continue;
 
                     if ($question->tipe === 'rating') {
-                        $total += (int) $value; 
+                        $total += (int) $value;
                     } else {
-                        // Default use question point value if answered
                         $total += $question->poin;
                     }
                 }
             }
         }
-        
+
         return $total;
     }
 }

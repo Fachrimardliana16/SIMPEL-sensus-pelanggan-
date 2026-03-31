@@ -9,7 +9,9 @@ class Question extends Model
 {
     use HasUuids;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'tema', 'pertanyaan', 'tipe', 'opsi', 'poin', 'wajib', 'urutan', 'is_active',
+    ];
 
     protected $casts = [
         'opsi' => 'json',
