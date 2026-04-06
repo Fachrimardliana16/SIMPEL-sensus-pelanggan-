@@ -20,7 +20,7 @@
                     <span class="font-extrabold">SIMPEL</span>
                 </h1>
                 <p class="text-xl lg:text-2xl text-blue-50 font-medium max-w-lg leading-relaxed drop-shadow-sm">
-                    Sensus Informasi & Manajemen PELanggan
+                    Sensus Informasi & Manajemen Pelanggan
                 </p>
                 
                 <div class="mt-16 flex items-center space-x-4 border-t border-white/20 pt-8 w-full max-w-sm">
@@ -107,7 +107,7 @@
             </div>
 
             <p class="mt-10 text-center text-sm text-slate-400">
-                &copy; {{ date('Y') }} Perusahaan. All rights reserved.
+                &copy; {{ date('Y') }} SIMPLE (Sensus Informasi & Menajemen Pelanggan). All rights reserved.
             </p>
         </div>
     </div>
