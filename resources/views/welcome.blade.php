@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
-        .stat-grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 1rem !important; }
+        .stat-grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 0.75rem !important; }
         @media (min-width: 1024px) { .stat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 1.5rem !important; } }
         #map { height: 450px; border-radius: 2rem; border: 1px solid #e2e8f0; width: 100%; z-index: 10; }
         .gradient-text { background: linear-gradient(135deg, #2563eb, #1e40af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -53,32 +53,32 @@
         </div>
 
         <!-- Progress Indicators -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-             <div class="bg-blue-600 p-6 rounded-3xl text-white shadow-lg">
-                <span class="block text-[10px] font-bold opacity-60 uppercase tracking-widest mb-1">Capaian Sensus</span>
-                <span id="perc-completion" class="text-3xl font-black block">{{ $percCompletion }}%</span>
-                <div class="w-full bg-white/20 h-1.5 rounded-full mt-3"><div class="bg-white h-1.5 rounded-full" style="width: {{ $percCompletion }}%"></div></div>
+        <div class="stat-grid mb-8">
+             <div class="bg-blue-600 p-5 md:p-6 rounded-3xl text-white shadow-lg overflow-hidden relative">
+                <span class="block text-[8px] md:text-[10px] font-bold opacity-60 uppercase tracking-widest mb-1">Capaian Sensus</span>
+                <span id="perc-completion" class="text-2xl md:text-3xl font-black block">{{ $percCompletion }}%</span>
+                <div class="w-full bg-white/20 h-1.5 rounded-full mt-3"><div class="bg-white h-1.5 rounded-full transition-all duration-1000" style="width: {{ $percCompletion }}%"></div></div>
              </div>
-             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+             <div class="bg-white p-5 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Pelanggan Aktif</span>
-                    <span id="stat-aktif" class="text-2xl font-black text-slate-900">{{ number_format($statAktif) }}</span>
+                    <span class="block text-[8px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Pelanggan Aktif</span>
+                    <span id="stat-aktif" class="text-xl md:text-2xl font-black text-slate-900">{{ number_format($statAktif) }}</span>
                 </div>
-                <div class="bg-green-50 p-2 rounded-xl text-green-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                <div class="bg-green-50 p-2 rounded-xl text-green-600"><svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
              </div>
-             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+             <div class="bg-white p-5 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tutup Sem.</span>
-                    <span id="stat-tutup-sem" class="text-2xl font-black text-slate-900">{{ number_format($statTutupSem) }}</span>
+                    <span class="block text-[8px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tutup Sem.</span>
+                    <span id="stat-tutup-sem" class="text-xl md:text-2xl font-black text-slate-900">{{ number_format($statTutupSem) }}</span>
                 </div>
-                <div class="bg-amber-50 p-2 rounded-xl text-amber-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                <div class="bg-amber-50 p-2 rounded-xl text-amber-600"><svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
              </div>
-             <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+             <div class="bg-white p-5 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tutup Ttp/Bongkar</span>
-                    <span id="stat-tutup-ttp" class="text-2xl font-black text-slate-900">{{ number_format($statTutupTetap + $statBongkar) }}</span>
+                    <span class="block text-[8px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tutup Ttp/Bongkar</span>
+                    <span id="stat-tutup-ttp" class="text-xl md:text-2xl font-black text-slate-900">{{ number_format($statTutupTetap + $statBongkar) }}</span>
                 </div>
-                <div class="bg-red-50 p-2 rounded-xl text-red-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                <div class="bg-red-50 p-2 rounded-xl text-red-600"><svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
              </div>
         </div>
 
@@ -148,11 +148,11 @@
                 <div id="map"></div>
             </div>
 
-            <div class="bg-white p-10 rounded-[3rem] border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="bg-white p-6 md:p-10 rounded-3xl md:rounded-[3rem] border border-slate-200 shadow-sm flex flex-col justify-between">
                 <div>
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">Statistik Akumulasi</h3>
-                    <p class="text-2xl font-black text-slate-900 mb-10 leading-tight">Tren Input <span class="text-blue-600" id="filter-label">{{ strtoupper($currentFilter) }}</span></p>
-                    <div class="h-[250px]">
+                    <h3 class="text-[10px] md:text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">Statistik Akumulasi</h3>
+                    <p class="text-xl md:text-2xl font-black text-slate-900 mb-6 md:mb-10 leading-tight">Tren Input <span class="text-blue-600 border-b-4 border-blue-100 pb-1" id="filter-label">DAILY</span></p>
+                    <div class="h-[200px] md:h-[250px]">
                         <canvas id="trendChart"></canvas>
                     </div>
                 </div>
@@ -164,8 +164,20 @@
         </div>
     </main>
 
-    <footer class="text-center pb-20 text-slate-400 font-bold text-[9px] tracking-[0.3em] uppercase">
-        &copy; {{ date('Y') }} SIMPEL MONITORING | INSTANSI / PERUSAHAAN | V1.0.2
+    <footer class="max-w-7xl mx-auto px-6 border-t border-slate-200 py-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="bg-slate-900 p-1.5 rounded-md">
+                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <span class="text-[10px] font-black text-slate-900 tracking-wider">SIMPEL V1.0.2</span>
+            </div>
+            <div class="text-center md:text-right">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+                    &copy; {{ date('Y') }} SIMPEL MONITORING | INSTANSI / PERUSAHAAN
+                </p>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -176,7 +188,25 @@
         function initMap(data) {
             if (!map) {
                 map = L.map('map', { scrollWheelZoom: false, zoomControl: false }).setView([-7.38, 109.35], 11);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OSM' }).addTo(map);
+                
+                const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+                    attribution: '&copy; OpenStreetMap contributors' 
+                });
+                
+                const googleHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    subdomains:['mt0','mt1','mt2','mt3'],
+                    attribution: '&copy; Google Maps'
+                });
+
+                googleHybrid.addTo(map); // Default to Satellite/Hybrid
+                
+                const baseMaps = {
+                    "Street View": osm,
+                    "Satellite/Hybrid": googleHybrid
+                };
+
+                L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
                 L.control.zoom({ position: 'bottomright' }).addTo(map);
                 mapMarkers.addTo(map);
             }

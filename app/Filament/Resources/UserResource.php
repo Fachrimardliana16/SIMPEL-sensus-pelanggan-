@@ -21,6 +21,16 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationGroup = 'Manajemen Akun';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_verified', false)->count() ?: null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'danger';
+    }
+
     public static function canViewAny(): bool
     {
         return auth()->user()?->hasRole(['Super Admin', 'Admin']) ?? false;
@@ -81,6 +91,9 @@ class UserResource extends Resource
                             ->schema([
                                 Forms\Components\DateTimePicker::make('email_verified_at')
                                     ->native(false),
+                                Forms\Components\Toggle::make('is_verified')
+                                    ->required()
+                                    ->label('Status Verifikasi'),
                             ]),
                     ]),
                 ])->from('md')->columnSpanFull(),
@@ -104,6 +117,11 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\IconColumn::make('is_verified')
+                    ->boolean()
+                    ->label('Verified')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -124,9 +142,30 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('verify')
+                    ->label('Verifikasi')
+                    ->icon('heroicon-o-check-badge')
+                    ->color('success')
+                    ->hidden(fn (User $record): bool => $record->is_verified)
+                    ->action(function (User $record) {
+                        $record->update(['is_verified' => true]);
+                        
+                        \Filament\Notifications\Notification::make()
+                            ->title('User Berhasil Diverifikasi')
+                            ->success()
+                            ->send();
+                    })
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('verify')
+                        ->label('Verifikasi Terpilih')
+                        ->icon('heroicon-o-check-badge')
+                        ->color('success')
+                        ->action(fn (\Illuminate\Support\Collection $records) => $records->each->update(['is_verified' => true]))
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion(),
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),

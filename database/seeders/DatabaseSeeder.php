@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'password' => bcrypt('password'),
             'email_verified_at' => now(),
+            'is_verified' => true,
         ]);
         $adminUser->assignRole($superAdmin);
 
@@ -48,6 +49,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Analyst User',
             'password' => bcrypt('password'),
             'email_verified_at' => now(),
+            'is_verified' => true,
         ]);
         $analystUser->assignRole($analyst);
 
@@ -55,6 +57,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Surveyor Lapangan',
             'password' => bcrypt('password'),
             'email_verified_at' => now(),
+            'is_verified' => true,
         ]);
         $surveyorUser->assignRole($surveyor);
 

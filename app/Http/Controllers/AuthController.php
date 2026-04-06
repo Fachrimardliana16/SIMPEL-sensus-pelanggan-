@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -14,6 +17,34 @@ class AuthController extends Controller
         }
         return view('auth.login');
     }
+    
+    public function showRegistrationForm()
+    {
+        if (Auth::check()) {
+            return $this->redirectBasedOnRole(Auth::user());
+        }
+        return view('auth.register');
+    }
+    
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'is_verified' => false,
+        ]);
+
+        $user->assignRole('Surveyor');
+
+        return redirect('/login')->with('success', 'Registrasi berhasil. Silakan tunggu verifikasi admin sebelum login.');
+    }
 
     public function login(Request $request)
     {
@@ -23,8 +54,20 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $user = Auth::user();
+            
+            if (!$user->is_verified) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                
+                return back()->withErrors([
+                    'email' => 'Akun Anda belum diverifikasi oleh administrator.',
+                ])->onlyInput('email');
+            }
+            
             $request->session()->regenerate();
-            return $this->redirectBasedOnRole(Auth::user());
+            return $this->redirectBasedOnRole($user);
         }
 
         return back()->withErrors([
